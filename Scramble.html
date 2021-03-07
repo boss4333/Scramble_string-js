@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width, initial-scale=1.0">
+   
+    <title> Login form</title>
+    <link rel="stylesheet" type="text/css" href="Scramble.css" />
+     
+</head>
+<body>
+        <header class="head">
+          <h1>guess the word game</h1>
+        </header>
+       
+   <section >
+  
+     <div class="game_in">
+       <h3 class="msg"></h3>
+        <input type="text" class="hidden"/>
+        <button class="btn">Click here to start</button>
+     </div>
+   </section>
+</body>
+
+<!-- javascript code -->
+
+<script>
+    const msg=document.querySelector('.msg');
+    const guess=document.querySelector('input');
+    const btn=document.querySelector('.btn');
+    //array of words //
+    let words=["python","c++","java","javascript","reactjs","php","angularjs","html","css","c#"
+    ,"swift","android","sql"];
+
+    let play=false;
+    let new_w="";
+    let ran_word="";
+    //function for random word //
+    const createnewword=()=>{
+       let ranNum=Math.floor(Math.random()*words.length);
+      //  console.log(ranNum);
+       let newword=words[ranNum];
+       return(newword);
+    }
+    // function for scrambling string//
+    const scrambleword=(arr)=>{
+             for(let i=arr.length-1;i>0;--i){
+               let temp=arr[i];
+               let j=Math.floor(Math.random()*(i+1));
+               arr[i]=arr[j];
+               arr[j]=temp;
+             }
+             return(arr);
+    }
+    btn.addEventListener('click',function(){
+       if(!play){
+         play=true;
+         btn.innerHTML="Guess";
+         guess.classList.toggle('hidden');
+          new_w=createnewword();
+          ran_word=scrambleword(new_w.split("")).join("");//string to array (split function)//
+          // console.log(ran_word.join(""));
+          msg.innerHTML=`Guess the Word:${ran_word}`;
+       }
+       else{
+         let tempword=guess.value;
+         if(tempword===new_w){
+          //  console.log("correct");
+           play=false;
+           msg.innerHTML=`ohh yaa,It's Correct.it is ${new_w}`;
+           btn.innerHTML="Start Again";
+           guess.classList.toggle('hidden');
+           guess.value="";
+         }
+         else{
+          msg.innerHTML=`oops,It's Incorrect.Try again ${ran_word}`;
+          //  console.log("incorrect");
+         }
+         
+       }
+    })
+</script>
+</html>
